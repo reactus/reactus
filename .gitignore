@@ -1,3 +1,4 @@
 /node_modules
-bundle.js
+/sass-cache
+/.tmp
 npm-debug.log

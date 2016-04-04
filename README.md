@@ -11,7 +11,14 @@ Simple starter package for Redux with React and Babel support
 
 ### Getting Started
 
+**Serve**
+
 ```
-	> npm install
-	> npm start
+	> gulp serve
+```
+
+**Build**
+
+```
+	> gulp build
 ```
