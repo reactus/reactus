@@ -8,6 +8,7 @@ var gulp = require("gulp"),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
     webpackDevServer = require("webpack-dev-server"),
+    historyApiFallback = require('connect-history-api-fallback'),
     del = require("del"),
     runSequence = require("run-sequence"),
     browserSync = require("browser-sync"),
@@ -151,8 +152,8 @@ gulp.task("serve:dev", function() {
         logPrefix: "Frontendler",
         server: {
             baseDir: [dev, app],
+            middleware: [ historyApiFallback() ]
         }
-
     });
 
     // gulp.watch([app + "/" + scripts + "/**/*.js"], "scripts:dev",browserSync.reload]);
