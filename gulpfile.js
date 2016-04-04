@@ -5,7 +5,9 @@
 // plugins
 var gulp = require("gulp"),
     plugins = require("gulp-load-plugins")(),
-    webpack = require('webpack-stream'),
+    webpack = require('webpack'),
+    webpackStream = require('webpack-stream'),
+    webpackDevServer = require("webpack-dev-server"),
     del = require("del"),
     runSequence = require("run-sequence"),
     browserSync = require("browser-sync"),
@@ -61,7 +63,8 @@ gulp.task("styles", function() {
 gulp.task("scripts", function() {
     return gulp.src(app + "/" + scripts + "/index.js")
         .pipe(plugins.plumber())
-        .pipe(webpack({
+        .pipe(webpackStream({
+            cache: true,
             output: {
               filename: 'bundle.js',
             },
@@ -72,10 +75,41 @@ gulp.task("scripts", function() {
               }]
             },
             resolve: {
-              extensions: ["", ".js", ".jsx", '.es6'],
-            }
+              extensions: ["", ".js",".jsx",'.es6'],
+          }
         }))
         .pipe(gulp.dest(dev + "/" + scripts));
+});
+
+
+gulp.task('scripts:dev',function (){
+    var compiler = webpack({
+        watch:true,
+        entry: './app/assets/scripts/index.js',
+        output: {
+          filename: 'bundle.js',
+          path: "/"
+        },
+        module: {
+          exclude: /node_modules/,
+          loaders:[{
+            loader: 'babel'
+          }]
+        },
+        resolve: {
+          extensions: ["", ".js",".jsx",'.es6'],
+      }
+    });
+
+    var webpackServer =  new webpackDevServer(compiler, {
+        hot: true,
+        stats: {
+			colors: true
+		},
+    })
+
+    webpackServer.listen(8080, "localhost", function() {
+    });
 });
 
 gulp.task("images", function() {
@@ -116,11 +150,12 @@ gulp.task("serve:dev", function() {
         logFileChanges: true,
         logPrefix: "Frontendler",
         server: {
-            baseDir: [dev, app]
+            baseDir: [dev, app],
         }
+
     });
 
-    gulp.watch([app + "/" + scripts + "/**/*.js"], ["scripts", browserSync.reload]);
+    // gulp.watch([app + "/" + scripts + "/**/*.js"], "scripts:dev",browserSync.reload]);
     gulp.watch([app + "/" + styles + "/**/*.scss"], ["styles"]);
     gulp.watch([app + "/" + fonts + "**/*"], ["fonts", browserSync.reload]);
     gulp.watch([app + "/" + images + "/**/*"], browserSync.reload);
@@ -128,7 +163,7 @@ gulp.task("serve:dev", function() {
 });
 
 gulp.task("watch", ["clean:dev"], function(cb) {
-    runSequence(["styles"], "serve:dev", cb);
+    runSequence(["styles","scripts:dev"], "serve:dev", cb);
 });
 
 //-------------------------------------------------------------------

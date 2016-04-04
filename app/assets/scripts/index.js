@@ -4,7 +4,13 @@ import ReactDOM from 'react-dom';
 // app
 class App extends Component {
     render (){
-        return  <div> Hello world </div>
+        return  (
+            <div>
+                <div> Hello teste 7 </div>
+                <div> Hello teste 7 </div>
+                <div> Hello teste 7 </div>
+            </div>
+        )
     }
 }
 
