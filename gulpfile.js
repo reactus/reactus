@@ -7,12 +7,10 @@ var gulp = require("gulp"),
     plugins = require("gulp-load-plugins")(),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
-    webpackDevServer = require("webpack-dev-server"),
     historyApiFallback = require('connect-history-api-fallback'),
     del = require("del"),
     runSequence = require("run-sequence"),
-    browserSync = require("browser-sync"),
-    pagespeed = require("psi");
+    browserSync = require("browser-sync");
 
 //-------------------------------------------------------------------
 // SETUP
@@ -65,52 +63,54 @@ gulp.task("scripts", function() {
     return gulp.src(app + "/" + scripts + "/index.js")
         .pipe(plugins.plumber())
         .pipe(webpackStream({
-            cache: true,
             output: {
-              filename: 'bundle.js',
+              filename: "bundle.js",
             },
+            devtool: 'cheap-module-source-map',
             module: {
               exclude: /node_modules/,
               loaders:[{
-                loader: 'babel'
+                test: /\.js$/,
+                loader: "babel"
               }]
             },
             resolve: {
               extensions: ["", ".js",".jsx",'.es6'],
-          }
+            },
+            plugins: [
+                new webpack.DefinePlugin({
+                    'process.env': {
+                        'NODE_ENV': JSON.stringify('production')
+                    }
+                })
+            ]
         }))
         .pipe(gulp.dest(dev + "/" + scripts));
 });
 
-
-gulp.task('scripts:dev',function (){
-    var compiler = webpack({
-        watch:true,
-        entry: './app/assets/scripts/index.js',
-        output: {
-          filename: 'bundle.js',
-          path: "/"
-        },
-        module: {
-          exclude: /node_modules/,
-          loaders:[{
-            loader: 'babel'
-          }]
-        },
-        resolve: {
-          extensions: ["", ".js",".jsx",'.es6'],
-      }
-    });
-
-    var webpackServer =  new webpackDevServer(compiler, {
-        hot: true,
-        stats: {
-			colors: true
-		},
-    })
-
-    webpackServer.listen(8080, "localhost", function() {
-    });
+gulp.task("scripts:dev", function() {
+    gulp.src(app + "/" + scripts + "/index.js")
+        .pipe(plugins.plumber())
+        .pipe(webpackStream({
+            watch:true,
+            devtool: 'eval',
+            output: {
+              filename: "bundle.js",
+              pathinfo: true
+            },
+            debug:true,
+            module: {
+              exclude: /node_modules/,
+              loaders:[{
+                test: /\.js$/,
+                loader: "babel"
+              }]
+            },
+            resolve: {
+              extensions: ["", ".js",".jsx",'.es6'],
+            }
+        }))
+        .pipe(gulp.dest(dev + "/" + scripts));
 });
 
 gulp.task("images", function() {
@@ -122,7 +122,7 @@ gulp.task("images", function() {
             interlaced: true
         })))
         .pipe(gulp.dest(prod + "/" + images))
-        .pipe(plugins.size());
+        .pipe(plugins.size({title:"images"}));
 });
 
 gulp.task("html", function() {
@@ -130,12 +130,12 @@ gulp.task("html", function() {
         .pipe(plugins.plumber())
         .pipe(plugins.useref({ searchPath: "{" + dev + "," + app + "}" }))
         .pipe(plugins.if("*.js", plugins.uglify()))
+        .pipe(plugins.size({title: "scripts:minified"}))
         .pipe(plugins.if("*.css", plugins.csso()))
+        .pipe(plugins.size({title: "styles:minified"}))
         .pipe(plugins.if("*.html", plugins.minifyHtml()))
         .pipe(gulp.dest(prod + "/"))
-        .pipe(plugins.size({
-            title: "html"
-        }));
+        .pipe(plugins.size({title: "useref total"}));
 });
 
 //-------------------------------------------------------------------
@@ -146,7 +146,7 @@ gulp.task("clean:dev", del.bind(null, [dev]));
 gulp.task("serve:dev", function() {
 
     browserSync({
-        //tunnel: "frontendler",
+        // tunnel: "frontendler",
         logConnections: true,
         logFileChanges: true,
         logPrefix: "Frontendler",
@@ -156,7 +156,6 @@ gulp.task("serve:dev", function() {
         }
     });
 
-    // gulp.watch([app + "/" + scripts + "/**/*.js"], "scripts:dev",browserSync.reload]);
     gulp.watch([app + "/" + styles + "/**/*.scss"], ["styles"]);
     gulp.watch([app + "/" + fonts + "**/*"], ["fonts", browserSync.reload]);
     gulp.watch([app + "/" + images + "/**/*"], browserSync.reload);
@@ -183,11 +182,4 @@ gulp.task("copy:prod", function() {
 
 gulp.task("build", ["clean:prod"], function(cb) {
     runSequence(["styles", "scripts", "images", "copy:prod"], "html", cb);
-});
-
-// Update `url` below to the public URL for your site
-gulp.task("pagespeed", function() {
-    pagespeed("frontendler.com.br", function(err, data) {
-        console.log(data);
-    });
 });
