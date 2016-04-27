@@ -89,27 +89,29 @@ gulp.task("scripts", function() {
 });
 
 gulp.task("scripts:dev", function() {
+
+    var bundler = webpack({
+        watch:true,
+        devtool: 'eval',
+        output: {
+          filename: "bundle.js",
+          pathinfo: true
+        },
+        debug:true,
+        module: {
+          exclude: /node_modules/,
+          loaders:[{
+            test: /\.js$/,
+            loader: "babel"
+          }]
+        },
+        resolve: {
+          extensions: ["", ".js",".jsx",'.es6'],
+        }
+    });
     gulp.src(app + "/" + scripts + "/index.js")
         .pipe(plugins.plumber())
-        .pipe(webpackStream({
-            watch:true,
-            devtool: 'eval',
-            output: {
-              filename: "bundle.js",
-              pathinfo: true
-            },
-            debug:true,
-            module: {
-              exclude: /node_modules/,
-              loaders:[{
-                test: /\.js$/,
-                loader: "babel"
-              }]
-            },
-            resolve: {
-              extensions: ["", ".js",".jsx",'.es6'],
-            }
-        }))
+        .pipe(webpackStream())
         .pipe(gulp.dest(dev + "/" + scripts));
 });
 
