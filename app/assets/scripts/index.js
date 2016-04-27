@@ -7,7 +7,19 @@ import { createHashHistory } from 'history'
 import ReduxPromise from 'redux-promise';
 import reducers from './reducers';
 
-// app
+// Libs
+import FastClick from 'fastclick';
+
+// Components
+import Index from './components/index';
+import NotFound from './components/not-found';
+
+const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
+const routerHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f;
+
+FastClick.attach(document.body);
+
 ReactDOM.render(
     <Provider store={createStoreWithMiddleware(reducers,devTools)}>
         <Router history={routerHistory}>
@@ -16,6 +28,3 @@ ReactDOM.render(
         </Router>
     </Provider>
 ,document.querySelector('.app'));
-
-// render
-ReactDOM.render(<App />, document.querySelector('.container'))

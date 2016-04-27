@@ -1,6 +1,6 @@
 # React Redux Starter
 
-Simple starter package for Redux with React and Babel support
+Starter package for Redux with React and Babel support
 
 #### Redux
 [Documentation](https://facebook.github.io/react/docs/getting-started.html)
@@ -14,11 +14,11 @@ Simple starter package for Redux with React and Babel support
 **Serve**
 
 ```
-	> gulp serve
+$ gulp serve
 ```
 
 **Build**
 
 ```
-	> gulp build
+$ gulp build
 ```
