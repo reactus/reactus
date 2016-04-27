@@ -8,6 +8,9 @@ Starter package for Redux with React and Babel support
 #### React
 [Documentation](http://redux.js.org/)
 
+#### Frontendler
+[Documentation](http://frontendler.io/)
+
 
 ### Getting Started
 
