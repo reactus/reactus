@@ -10,7 +10,9 @@ var gulp = require("gulp"),
     historyApiFallback = require('connect-history-api-fallback'),
     del = require("del"),
     runSequence = require("run-sequence"),
-    browserSync = require("browser-sync");
+    browserSync = require("browser-sync"),
+    webpackDevMiddleware = require('webpack-dev-middleware'),
+    webpackHotMiddleware = require('webpack-hot-middleware');
 
 //-------------------------------------------------------------------
 // SETUP
@@ -64,18 +66,18 @@ gulp.task("scripts", function() {
         .pipe(plugins.plumber())
         .pipe(webpackStream({
             output: {
-              filename: "bundle.js",
+                filename: "bundle.js",
             },
             devtool: 'cheap-module-source-map',
             module: {
-              exclude: /node_modules/,
-              loaders:[{
-                test: /\.js$/,
-                loader: "babel"
-              }]
+                exclude: /node_modules/,
+                loaders: [{
+                    test: /\.js$/,
+                    loader: "babel"
+                }]
             },
             resolve: {
-              extensions: ["", ".js",".jsx",'.es6'],
+                extensions: ["", ".js", ".jsx", '.es6'],
             },
             plugins: [
                 new webpack.DefinePlugin({
@@ -90,29 +92,6 @@ gulp.task("scripts", function() {
 
 gulp.task("scripts:dev", function() {
 
-    var bundler = webpack({
-        watch:true,
-        devtool: 'eval',
-        output: {
-          filename: "bundle.js",
-          pathinfo: true
-        },
-        debug:true,
-        module: {
-          exclude: /node_modules/,
-          loaders:[{
-            test: /\.js$/,
-            loader: "babel"
-          }]
-        },
-        resolve: {
-          extensions: ["", ".js",".jsx",'.es6'],
-        }
-    });
-    gulp.src(app + "/" + scripts + "/index.js")
-        .pipe(plugins.plumber())
-        .pipe(webpackStream())
-        .pipe(gulp.dest(dev + "/" + scripts));
 });
 
 gulp.task("images", function() {
@@ -124,20 +103,30 @@ gulp.task("images", function() {
             interlaced: true
         })))
         .pipe(gulp.dest(prod + "/" + images))
-        .pipe(plugins.size({title:"images"}));
+        .pipe(plugins.size({
+            title: "images"
+        }));
 });
 
 gulp.task("html", function() {
     return gulp.src([app + "/**/*.html"])
         .pipe(plugins.plumber())
-        .pipe(plugins.useref({ searchPath: "{" + dev + "," + app + "}" }))
+        .pipe(plugins.useref({
+            searchPath: "{" + dev + "," + app + "}"
+        }))
         .pipe(plugins.if("*.js", plugins.uglify()))
-        .pipe(plugins.size({title: "scripts:minified"}))
+        .pipe(plugins.size({
+            title: "scripts:minified"
+        }))
         .pipe(plugins.if("*.css", plugins.csso()))
-        .pipe(plugins.size({title: "styles:minified"}))
+        .pipe(plugins.size({
+            title: "styles:minified"
+        }))
         .pipe(plugins.if("*.html", plugins.minifyHtml()))
         .pipe(gulp.dest(prod + "/"))
-        .pipe(plugins.size({title: "useref total"}));
+        .pipe(plugins.size({
+            title: "useref total"
+        }));
 });
 
 //-------------------------------------------------------------------
@@ -147,6 +136,35 @@ gulp.task("html", function() {
 gulp.task("clean:dev", del.bind(null, [dev]));
 gulp.task("serve:dev", function() {
 
+    var bundler = webpack({
+        watch: true,
+        devtool: 'eval',
+        output: {
+            filename: "bundle.js",
+            pathinfo: true
+        },
+        entry: [
+            'webpack/hot/dev-server',
+            'webpack-hot-middleware/client',
+        ],
+        debug: true,
+        module: {
+            exclude: /node_modules/,
+            loaders: [{
+                test: /\.js$/,
+                loaders: ['react-hot', 'babel']
+            }]
+        },
+        resolve: {
+            extensions: ["", ".js", ".jsx", '.es6'],
+        },
+        plugins: [
+            new webpack.optimize.OccurenceOrderPlugin(),
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoErrorsPlugin()
+        ],
+    });
+
     browserSync({
         // tunnel: "frontendler",
         logConnections: true,
@@ -154,7 +172,16 @@ gulp.task("serve:dev", function() {
         logPrefix: "Frontendler",
         server: {
             baseDir: [dev, app],
-            middleware: [ historyApiFallback() ]
+            middleware: [
+                historyApiFallback(),
+                webpackDevMiddleware(bundler, {
+                    publicPath: dev + "/" + scripts,
+                    stats: {
+                        colors: true
+                    }
+                }),
+                webpackHotMiddleware(bundler)
+            ]
         }
     });
 
@@ -165,7 +192,7 @@ gulp.task("serve:dev", function() {
 });
 
 gulp.task("watch", ["clean:dev"], function(cb) {
-    runSequence(["styles","scripts:dev"], "serve:dev", cb);
+    runSequence(["styles", "scripts:dev"], "serve:dev", cb);
 });
 
 //-------------------------------------------------------------------
