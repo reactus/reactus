@@ -20,9 +20,9 @@ var gulp = require("gulp"),
 //-------------------------------------------------------------------
 
 // environments
-var app = "app";
-var dev = ".tmp";
-var prod = "dist";
+var app = "app/";
+var dev = ".tmp/";
+var prod = "dist/";
 
 //folders
 var styles = "assets/styles";
@@ -47,7 +47,7 @@ var AUTOPREFIXER_BROWSERS = [
 //-------------------------------------------------------------------
 
 gulp.task("styles", function() {
-    return gulp.src(app + "/" + styles + "/**/*.scss")
+    return gulp.src(app + styles + "/**/*.scss")
         .pipe(plugins.plumber())
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.sass({
@@ -55,7 +55,7 @@ gulp.task("styles", function() {
         }).on("error", plugins.sass.logError))
         .pipe(plugins.autoprefixer(AUTOPREFIXER_BROWSERS))
         .pipe(plugins.sourcemaps.write())
-        .pipe(gulp.dest(dev + "/" + styles))
+        .pipe(gulp.dest(dev + styles))
         .pipe(browserSync.stream())
         .pipe(plugins.size({
             title: "styles",
@@ -63,42 +63,36 @@ gulp.task("styles", function() {
 });
 
 gulp.task("scripts", function() {
-    return gulp.src(app + "/" + scripts + "/index.js")
+    return gulp.src(app + scripts + "/index.js")
         .pipe(plugins.plumber())
         .pipe(webpackStream(webpackConfig.PROD))
-        .pipe(gulp.dest(dev + "/" + scripts));
+        .pipe(gulp.dest(dev + scripts));
 });
 
 gulp.task("images", function() {
-    return gulp.src(app + "/" + images + "/**/*")
+    return gulp.src(app + images + "/**/*")
         .pipe(plugins.plumber())
         .pipe(plugins.cache(plugins.imagemin({
             optimizationLevel: 3,
             progressive: true,
             interlaced: true
         })))
-        .pipe(gulp.dest(prod + "/" + images))
+        .pipe(gulp.dest(prod + images))
         .pipe(plugins.size({
             title: "images"
         }));
 });
 
 gulp.task("html", function() {
-    return gulp.src([app + "/**/*.html"])
+    return gulp.src([app + "**/*.html"])
         .pipe(plugins.plumber())
         .pipe(plugins.useref({
             searchPath: "{" + dev + "," + app + "}"
         }))
         .pipe(plugins.if("*.js", plugins.uglify()))
-        .pipe(plugins.size({
-            title: "scripts:minified"
-        }))
-        .pipe(plugins.if("*.css", plugins.csso()))
-        .pipe(plugins.size({
-            title: "styles:minified"
-        }))
+        .pipe(plugins.if("*.css", plugins.cssnano()))
         .pipe(plugins.if("*.html", plugins.minifyHtml()))
-        .pipe(gulp.dest(prod + "/"))
+        .pipe(gulp.dest(prod))
         .pipe(plugins.size({
             title: "useref total"
         }));
@@ -133,9 +127,9 @@ gulp.task("serve:dev", function() {
         }
     });
 
-    gulp.watch([app + "/" + styles + "/**/*.scss"], ["styles"]);
-    gulp.watch([app + "/" + fonts + "**/*"], ["fonts", browserSync.reload]);
-    gulp.watch([app + "/" + images + "/**/*"], browserSync.reload);
+    gulp.watch([app + styles + "/**/*.scss"], ["styles"]);
+    gulp.watch([app + fonts + "**/*"], ["fonts", browserSync.reload]);
+    gulp.watch([app + images + "/**/*"], browserSync.reload);
 
 });
 
@@ -149,9 +143,9 @@ gulp.task("watch", ["clean:dev"], function(cb) {
 
 gulp.task("clean:prod", del.bind(null, [prod]));
 gulp.task("copy:prod", function() {
-    gulp.src([app + "/" + fonts + "/**/*.{eot,svg,ttf,woff}"])
-        .pipe(gulp.dest(prod + "/" + fonts));
-    gulp.src([app + "/*.*", "node_modules/apache-server-configs/dist/.htaccess"], {
+    gulp.src([app + fonts + "/**/*.{eot,svg,ttf,woff}"])
+        .pipe(gulp.dest(prod + fonts));
+    gulp.src([app + "*.*", "node_modules/apache-server-configs/dist/.htaccess"], {
             dot: true
         })
         .pipe(gulp.dest(prod));
