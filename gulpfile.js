@@ -5,15 +5,15 @@
 // plugins
 var gulp = require("gulp"),
     plugins = require("gulp-load-plugins")(),
+    del = require("del"),
+    browserSync = require("browser-sync"),
+    historyApiFallback = require('connect-history-api-fallback'),
+    runSequence = require("run-sequence"),
     webpack = require('webpack'),
     webpackStream = require('webpack-stream'),
-    historyApiFallback = require('connect-history-api-fallback'),
-    del = require("del"),
-    runSequence = require("run-sequence"),
-    browserSync = require("browser-sync"),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
-    path = require('path');
+    webpackConfig = require('./webpack.config');
 
 //-------------------------------------------------------------------
 // SETUP
@@ -65,29 +65,7 @@ gulp.task("styles", function() {
 gulp.task("scripts", function() {
     return gulp.src(app + "/" + scripts + "/index.js")
         .pipe(plugins.plumber())
-        .pipe(webpackStream({
-            output: {
-                filename: "bundle.js",
-            },
-            devtool: 'cheap-module-source-map',
-            module: {
-                exclude: /node_modules/,
-                loaders: [{
-                    test: /\.js$/,
-                    loader: "babel"
-                }]
-            },
-            resolve: {
-                extensions: ["", ".js", ".jsx", '.es6'],
-            },
-            plugins: [
-                new webpack.DefinePlugin({
-                    'process.env': {
-                        'NODE_ENV': JSON.stringify('production')
-                    }
-                })
-            ]
-        }))
+        .pipe(webpackStream(webpackConfig.PROD))
         .pipe(gulp.dest(dev + "/" + scripts));
 });
 
@@ -133,39 +111,7 @@ gulp.task("html", function() {
 gulp.task("clean:dev", del.bind(null, [dev]));
 gulp.task("serve:dev", function() {
 
-    console.log(path.join(__dirname, app, scripts));
-
-    var bundler = webpack({
-        // watch: true,
-        debug: true,
-        devtool: '#eval-source-map',
-        context: path.join(__dirname, app, scripts),
-        output: {
-            path: path.join(__dirname, app, scripts),
-            publicPath: "/" + scripts,
-            filename: "bundle.js"
-        },
-        entry: [
-            'webpack/hot/dev-server',
-            'webpack-hot-middleware/client',
-            './index'
-        ],
-        module: {
-            loaders: [{
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loaders: ['react-hot', 'babel']
-            }]
-        },
-        resolve: {
-            extensions: ["", ".js", ".jsx", '.es6'],
-        },
-        plugins: [
-            new webpack.optimize.OccurenceOrderPlugin(),
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoErrorsPlugin()
-        ],
-    });
+    var bundler = webpack(webpackConfig.DEV);
 
     browserSync({
         // tunnel: "frontendler",
@@ -176,7 +122,7 @@ gulp.task("serve:dev", function() {
             baseDir: [dev, app],
             middleware: [
                 webpackDevMiddleware(bundler, {
-                    publicPath: "/" + scripts,
+                    publicPath: webpackConfig.DEV.output.publicPath,
                     stats: {
                         colors: true
                     }
