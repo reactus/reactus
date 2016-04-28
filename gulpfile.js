@@ -12,7 +12,8 @@ var gulp = require("gulp"),
     runSequence = require("run-sequence"),
     browserSync = require("browser-sync"),
     webpackDevMiddleware = require('webpack-dev-middleware'),
-    webpackHotMiddleware = require('webpack-hot-middleware');
+    webpackHotMiddleware = require('webpack-hot-middleware'),
+    path = require('path');
 
 //-------------------------------------------------------------------
 // SETUP
@@ -90,10 +91,6 @@ gulp.task("scripts", function() {
         .pipe(gulp.dest(dev + "/" + scripts));
 });
 
-gulp.task("scripts:dev", function() {
-
-});
-
 gulp.task("images", function() {
     return gulp.src(app + "/" + images + "/**/*")
         .pipe(plugins.plumber())
@@ -136,22 +133,27 @@ gulp.task("html", function() {
 gulp.task("clean:dev", del.bind(null, [dev]));
 gulp.task("serve:dev", function() {
 
+    console.log(path.join(__dirname, app, scripts));
+
     var bundler = webpack({
-        watch: true,
-        devtool: 'eval',
+        // watch: true,
+        debug: true,
+        devtool: '#eval-source-map',
+        context: path.join(__dirname, app, scripts),
         output: {
-            filename: "bundle.js",
-            pathinfo: true
+            path: path.join(__dirname, app, scripts),
+            publicPath: "/" + scripts,
+            filename: "bundle.js"
         },
         entry: [
             'webpack/hot/dev-server',
             'webpack-hot-middleware/client',
+            './index'
         ],
-        debug: true,
         module: {
-            exclude: /node_modules/,
             loaders: [{
                 test: /\.js$/,
+                exclude: /node_modules/,
                 loaders: ['react-hot', 'babel']
             }]
         },
@@ -173,14 +175,14 @@ gulp.task("serve:dev", function() {
         server: {
             baseDir: [dev, app],
             middleware: [
-                historyApiFallback(),
                 webpackDevMiddleware(bundler, {
-                    publicPath: dev + "/" + scripts,
+                    publicPath: "/" + scripts,
                     stats: {
                         colors: true
                     }
                 }),
-                webpackHotMiddleware(bundler)
+                webpackHotMiddleware(bundler),
+                historyApiFallback()
             ]
         }
     });
@@ -192,7 +194,7 @@ gulp.task("serve:dev", function() {
 });
 
 gulp.task("watch", ["clean:dev"], function(cb) {
-    runSequence(["styles", "scripts:dev"], "serve:dev", cb);
+    runSequence(["styles"], "serve:dev", cb);
 });
 
 //-------------------------------------------------------------------

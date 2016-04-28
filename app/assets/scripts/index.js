@@ -15,14 +15,14 @@ import Index from './components/index';
 import NotFound from './components/not-found';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
-const routerHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+const routerHistory = useRouterHistory(createHashHistory)({queryKey:false})
 const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f;
 
 FastClick.attach(document.body);
 
 ReactDOM.render(
     <Provider store={createStoreWithMiddleware(reducers,devTools)}>
-        <Router history={routerHistory}>
+        <Router history={routerHistory} onUpdate={() => window.scrollTo(0, 0)}>
             <Route path="/" component={Index}/>
             <Route path="*" component={NotFound}/>
         </Router>

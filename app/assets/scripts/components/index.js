@@ -13,7 +13,7 @@ class Index extends Component {
     render() {
         return (
             <div className="component-index">
-                Hello world!
+                Hello world sffsaffa
             </div>
         );
     }
