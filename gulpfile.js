@@ -63,7 +63,7 @@ gulp.task("styles", function() {
 });
 
 gulp.task("scripts", function() {
-    return gulp.src(app + scripts + "/index.js")
+    return gulp.src(app + scripts + "/main.js")
         .pipe(plugins.plumber())
         .pipe(webpackStream(webpackConfig.PROD))
         .pipe(gulp.dest(dev + scripts));
