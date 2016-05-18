@@ -176,6 +176,7 @@ gulp.task("teste:server", function() {
             middleware: [
                 webpackDevMiddleware(bundler, {
                     publicPath: webpackConfig.TEST2.output.publicPath,
+                    quiet: false,
                     stats: {
                         colors: true
                     }
