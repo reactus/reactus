@@ -164,7 +164,7 @@ gulp.task("build", ["clean:prod"], function(cb) {
 
 gulp.task("teste:server", function() {
 
-    var bundler = webpack(webpackConfig.TEST);
+    var bundler = webpack(webpackConfig.TEST2);
 
     browserSync({
         // tunnel: "frontendler",
@@ -172,10 +172,10 @@ gulp.task("teste:server", function() {
         logFileChanges: true,
         logPrefix: "Frontendler",
         server: {
-            baseDir: ['test/','node_modules/'],
+            baseDir: ['test/'],
             middleware: [
                 webpackDevMiddleware(bundler, {
-                    publicPath: webpackConfig.TEST.output.publicPath,
+                    publicPath: webpackConfig.TEST2.output.publicPath,
                     stats: {
                         colors: true
                     }
@@ -185,8 +185,9 @@ gulp.task("teste:server", function() {
             ]
         }
     });
-});
 
+    gulp.watch(["test/**/*.js"], browserSync.reload);
+});
 
 gulp.task('test:build',function(){
     return gulp.src(['test/**/*.js'])
@@ -196,6 +197,13 @@ gulp.task('test:build',function(){
 });
 
 gulp.task('test',['test:build'],function(){
+    return gulp.src(['test/bundle.js'])
+        .pipe(plugins.plumber())
+        .pipe(plugins.jasmine());
+});
+
+
+gulp.task('ttd',['test:build'],function(){
     return gulp.src(['test/bundle.js'])
         .pipe(plugins.plumber())
         .pipe(plugins.jasmine());

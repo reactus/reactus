@@ -76,6 +76,36 @@ module.exports = {
                 }
             })
         ]
+    },
+    TEST2:{
+        debug: true,
+        devtool: '#eval-source-map',
+        context: path.join(__dirname, 'test'),
+        output: {
+            path: path.join(__dirname, 'test'),
+            publicPath: '/',
+            filename: "bundle.js"
+        },
+        entry: [
+            'webpack/hot/dev-server',
+            'webpack-hot-middleware/client',
+            './index'
+        ],
+        module: {
+            loaders: [{
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loaders: ['react-hot', 'babel']
+            }]
+        },
+        resolve: {
+            extensions: ["", ".js", ".jsx", '.es6'],
+        },
+        plugins: [
+            new webpack.optimize.OccurenceOrderPlugin(),
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoErrorsPlugin()
+        ],
     }
 
 }
