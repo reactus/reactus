@@ -13,7 +13,9 @@ var gulp = require("gulp"),
     webpackStream = require('webpack-stream'),
     webpackDevMiddleware = require('webpack-dev-middleware'),
     webpackHotMiddleware = require('webpack-hot-middleware'),
-    webpackConfig = require('./webpack.config');
+    webpackConfig = require('./webpack.config'),
+    babel = require('babel-core'),
+    reporters = require('jasmine-reporters');
 
 //-------------------------------------------------------------------
 // SETUP
@@ -153,4 +155,48 @@ gulp.task("copy:prod", function() {
 
 gulp.task("build", ["clean:prod"], function(cb) {
     runSequence(["styles", "scripts", "images", "copy:prod"], "html", cb);
+});
+
+
+//-------------------------------------------------------------------
+// TEST
+//-------------------------------------------------------------------
+
+gulp.task("teste:server", function() {
+
+    var bundler = webpack(webpackConfig.TEST);
+
+    browserSync({
+        // tunnel: "frontendler",
+        logConnections: true,
+        logFileChanges: true,
+        logPrefix: "Frontendler",
+        server: {
+            baseDir: ['test/','node_modules/'],
+            middleware: [
+                webpackDevMiddleware(bundler, {
+                    publicPath: webpackConfig.TEST.output.publicPath,
+                    stats: {
+                        colors: true
+                    }
+                }),
+                webpackHotMiddleware(bundler),
+                historyApiFallback()
+            ]
+        }
+    });
+});
+
+
+gulp.task('test:build',function(){
+    return gulp.src(['test/**/*.js'])
+        .pipe(plugins.plumber())
+        .pipe(webpackStream(webpackConfig.TEST))
+        .pipe(gulp.dest('test/'));
+});
+
+gulp.task('test',['test:build'],function(){
+    return gulp.src(['test/bundle.js'])
+        .pipe(plugins.plumber())
+        .pipe(plugins.jasmine());
 });

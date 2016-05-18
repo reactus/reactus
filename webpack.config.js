@@ -54,5 +54,28 @@ module.exports = {
                 }
             })
         ]
+    },
+    TEST:{
+        output: {
+            filename: "bundle.js",
+        },
+        module: {
+            exclude: /node_modules/,
+            loaders: [{
+                test: /\.js$/,
+                loader: "babel"
+            }]
+        },
+        resolve: {
+            extensions: ["", ".js", ".jsx", '.es6'],
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('production')
+                }
+            })
+        ]
     }
+
 }
