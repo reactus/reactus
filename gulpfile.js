@@ -162,12 +162,11 @@ gulp.task("build", ["clean:prod"], function(cb) {
 // TEST
 //-------------------------------------------------------------------
 
-gulp.task("teste:server", function() {
+gulp.task("test:server", function() {
 
     var bundler = webpack(webpackConfig.TEST2);
 
     browserSync({
-        // tunnel: "frontendler",
         logConnections: true,
         logFileChanges: true,
         logPrefix: "Frontendler",
