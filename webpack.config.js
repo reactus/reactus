@@ -32,7 +32,8 @@ module.exports = {
             new webpack.NoErrorsPlugin()
         ],
     },
-    PROD:{
+    PROD: {
+        cache: false,
         output: {
             filename: "bundle.js",
         },
@@ -52,32 +53,15 @@ module.exports = {
                 'process.env': {
                     'NODE_ENV': JSON.stringify('production')
                 }
-            })
-        ]
-    },
-    TEST:{
-        output: {
-            filename: "bundle.js",
-        },
-        module: {
-            exclude: /node_modules/,
-            loaders: [{
-                test: /\.js$/,
-                loader: "babel"
-            }]
-        },
-        resolve: {
-            extensions: ["", ".js", ".jsx", '.es6'],
-        },
-        plugins: [
-            new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': JSON.stringify('production')
+            }),
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false
                 }
             })
         ]
     },
-    TEST2:{
+    TEST: {
         debug: true,
         devtool: '#eval-source-map',
         context: path.join(__dirname, 'test'),
@@ -107,5 +91,4 @@ module.exports = {
             new webpack.NoErrorsPlugin()
         ],
     }
-
 }
