@@ -68,7 +68,10 @@ gulp.task("scripts", function() {
     return gulp.src(app + scripts + "/main.js")
         .pipe(plugins.plumber())
         .pipe(webpackStream(webpackConfig.PROD))
-        .pipe(gulp.dest(dev + scripts));
+        .pipe(gulp.dest(dev + scripts))
+        .pipe(plugins.size({
+            title: "scripts"
+        }));
 });
 
 gulp.task("images", function() {
@@ -164,7 +167,7 @@ gulp.task("build", ["clean:prod"], function(cb) {
 
 gulp.task("test:server", function() {
 
-    var bundler = webpack(webpackConfig.TEST2);
+    var bundler = webpack(webpackConfig.TEST);
 
     browserSync({
         logConnections: true,
@@ -174,7 +177,7 @@ gulp.task("test:server", function() {
             baseDir: ['test/'],
             middleware: [
                 webpackDevMiddleware(bundler, {
-                    publicPath: webpackConfig.TEST2.output.publicPath,
+                    publicPath: webpackConfig.TEST.output.publicPath,
                     quiet: false,
                     stats: {
                         colors: true
@@ -189,22 +192,11 @@ gulp.task("test:server", function() {
     gulp.watch(["test/**/*.js"], browserSync.reload);
 });
 
-gulp.task('test:build',function(){
+gulp.task('test',function(){
+    webpackConfig.PROD.devtool = "";
     return gulp.src(['test/**/*.js'])
         .pipe(plugins.plumber())
-        .pipe(webpackStream(webpackConfig.TEST))
-        .pipe(gulp.dest('test/'));
-});
-
-gulp.task('test',['test:build'],function(){
-    return gulp.src(['test/bundle.js'])
-        .pipe(plugins.plumber())
-        .pipe(plugins.jasmine());
-});
-
-
-gulp.task('ttd',['test:build'],function(){
-    return gulp.src(['test/bundle.js'])
-        .pipe(plugins.plumber())
+        .pipe(webpackStream(webpackConfig.PROD))
+        .pipe(gulp.dest('.test/'))
         .pipe(plugins.jasmine());
 });
