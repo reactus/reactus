@@ -14,10 +14,10 @@ Starter package for Redux with React and Babel support
 
 ### Getting Started
 
-**Serve**
+**Watch**
 
 ```
-$ gulp serve
+$ gulp watch
 ```
 
 **Build**
