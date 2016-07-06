@@ -11,16 +11,16 @@ This is a React and Redux developer kit using the following technologies:
 
 | **Name** |URL|
 |----------|-------|---|
+| Babel | https://babeljs.io/ |
+| BrowserSync | https://www.browsersync.io/ |
+| ESLint | http://eslint.org/ |
+| Frontendler | http://frontendler.io/ |
+| Gulp | http://gulpjs.com/ |
+| Jasmine | http://jasmine.github.io/ |
 | React | http://redux.js.org/ |
 | Redux | https://facebook.github.io/react/ |
-| Frontendler | http://frontendler.io/ |
 | Sass | http://sass-lang.com/ |
-| Gulp | http://gulpjs.com/ |
-| BrowserSync | https://www.browsersync.io/ |
-| Jasmine | http://jasmine.github.io/ |
-| ESLint | http://eslint.org/ |
 | Webpack | https://webpack.github.io/ |
-
 
 ### Installation
 
