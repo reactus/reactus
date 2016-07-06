@@ -41,3 +41,6 @@ $ gulp watch
 ```
 $ gulp build
 ```
+
+---
+Made with ♥ by Daniel Beff ([@dbeff](http://www.danielbeff.com.br/))
