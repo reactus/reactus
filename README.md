@@ -2,15 +2,31 @@
 
 React Redux Developer Kit
 
-#### Redux
-[Documentation](https://facebook.github.io/react/docs/getting-started.html)
 
-#### React
-[Documentation](http://redux.js.org/)
+### About
+This is a developer kit react redux app using the following technologies:
 
-#### Frontendler
-[Documentation](http://frontendler.io/)
 
+### Technologies
+
+| **Name** |URL|
+|----------|-------|---|
+| React | http://redux.js.org/ |
+| Redux | https://facebook.github.io/react/ |
+| Frontendler | http://frontendler.io/ |
+| Sass | http://sass-lang.com/ |
+| Gulp | http://gulpjs.com/ |
+| BrowserSync | https://www.browsersync.io/ |
+| Jasmine | http://jasmine.github.io/ |
+| ESLint | http://eslint.org/ |
+| Webpack | https://webpack.github.io/ |
+
+
+### Installation
+
+```bash
+npm install
+```
 
 ### Getting Started
 
