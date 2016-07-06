@@ -16,6 +16,7 @@
     "browser-sync": "^2.12.5",
     "connect-history-api-fallback": "^1.2.0",
     "del": "^2.2.0",
+    "eslint-config-reactus": "^0.1.0",
     "expect": "^1.20.1",
     "frontendler-sass": "^0.3.0",
     "gulp": "^3.9.1",
