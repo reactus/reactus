@@ -1,8 +1,8 @@
 {
-  "name": "react-redux-starter",
+  "name": "reactus",
   "version": "0.1.0",
-  "description": "Starter project for Redux with React, Babel and Sass support",
-  "repository": "git@github.com:dbeff/react-redux-starter.git",
+  "description": "React Redux Developer Kit",
+  "repository": "git@github.com:reactus/reactus.git",
   "author": "Daniel Beff",
   "license": "MIT",
   "devDependencies": {

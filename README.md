@@ -1,6 +1,6 @@
 # Reactus
 
-React Redux Developer kit
+React Redux Developer Kit
 
 #### Redux
 [Documentation](https://facebook.github.io/react/docs/getting-started.html)
