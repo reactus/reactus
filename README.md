@@ -43,4 +43,4 @@ $ gulp build
 ```
 
 ---
-Made with ♥ by Daniel Beff ([@dbeff](http://www.danielbeff.com.br/))
+Made with ♥ by [Daniel Beff](http://www.danielbeff.com.br/) ([@dbeff](https://github.com/dbeff))
