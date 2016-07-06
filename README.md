@@ -1,6 +1,6 @@
-# React Redux Starter
+# Reactus
 
-Starter package for Redux with React and Babel support
+React Redux Developer kit
 
 #### Redux
 [Documentation](https://facebook.github.io/react/docs/getting-started.html)
