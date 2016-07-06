@@ -1,7 +1,3 @@
 {
-	"extends": "eslint-config-reactus",
-	"rules":{
-		"eqeqeq": 2,
-		"camelcase": 2
-	}
+    "extends": "reactus"
 }
