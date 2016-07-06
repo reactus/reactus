@@ -4,7 +4,7 @@ React Redux Developer Kit
 
 
 ### About
-This is a developer kit react redux app using the following technologies:
+This is a React and Redux developer kit using the following technologies:
 
 
 ### Technologies
