@@ -7,16 +7,16 @@ module.exports = {
         debug: true,
         devtool: '#eval-source-map',
         context: path.join(__dirname, 'app', 'assets/scripts'),
-        output: {
-            path: path.join(__dirname, 'app', 'assets/scripts'),
-            publicPath: '/assets/scripts',
-            filename: "bundle.js"
-        },
         entry: [
             'webpack/hot/dev-server',
             'webpack-hot-middleware/client',
             './main'
         ],
+        output: {
+            path: path.join(__dirname, 'app', 'assets/scripts'),
+            publicPath: '/assets/scripts',
+            filename: "bundle.js"
+        },
         module: {
             loaders: [{
                 test: /\.js$/,
