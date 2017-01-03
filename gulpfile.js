@@ -94,7 +94,6 @@ gulp.task("html", function() {
         .pipe(plugins.useref({
             searchPath: "{" + dev + "," + app + "}"
         }))
-        .pipe(plugins.if("*.js", plugins.uglify()))
         .pipe(plugins.if("*.css", plugins.cssnano()))
         .pipe(plugins.if("*.html", plugins.minifyHtml()))
         .pipe(gulp.dest(prod))
