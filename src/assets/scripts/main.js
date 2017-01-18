@@ -7,6 +7,9 @@ import reducers from './reducers';
 import FastClick from 'fastclick';
 import Routers from './routers/index';
 
+import "./../styles/main.scss";
+
+
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 const devTools = window.devToolsExtension ? window.devToolsExtension() : f => f;
 

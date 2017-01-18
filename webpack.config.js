@@ -1,95 +1,45 @@
-require("babel-polyfill");
-var webpack = require('webpack');
-var path = require('path');
+var webpack = require("webpack");
+var path = require("path");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var frontendler = path.resolve(__dirname, "./node_modules/frontendler-sass");
 
-module.exports = {
-    DEV: {
-        debug: true,
-        devtool: '#eval-source-map',
-        context: path.join(__dirname, 'app', 'assets/scripts'),
-        entry: [
-            'webpack/hot/dev-server',
-            'webpack-hot-middleware/client',
-            './main'
-        ],
-        output: {
-            path: path.join(__dirname, 'app', 'assets/scripts'),
-            publicPath: '/assets/scripts',
-            filename: "bundle.js"
-        },
-        module: {
-            loaders: [{
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loaders: ['react-hot', 'babel']
-            }]
-        },
-        resolve: {
-            extensions: ["", ".js", ".jsx", '.es6'],
-        },
-        plugins: [
-            new webpack.optimize.OccurenceOrderPlugin(),
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoErrorsPlugin()
-        ],
+var config = {
+    devtool: "source-map",
+    entry: ["./src/assets/scripts/main.js"],
+    output: {
+        path: path.join(__dirname, 'dist'),
+        filename: "assets/scripts/[name].js",
+        publicPath: "/"
     },
-    PROD: {
-        cache: false,
-        output: {
-            filename: "bundle.js",
-        },
-        devtool: 'cheap-module-source-map',
-        module: {
-            exclude: /node_modules/,
-            loaders: [{
+    module: {
+        rules: [
+            {
+                use: ["babel-loader"],
                 test: /\.js$/,
-                loader: "babel"
-            }]
-        },
-        resolve: {
-            extensions: ["", ".js", ".jsx", '.es6'],
-        },
-        plugins: [
-            new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': JSON.stringify('production')
-                }
-            }),
-            new webpack.optimize.UglifyJsPlugin({
-                compress: {
-                    warnings: false
-                }
-            })
+                include: path.join(__dirname, 'src')
+            }, {
+                use: [
+                    'raw-loader', {
+                        loader: "sass-loader",
+                        options: {
+                            includePaths: [frontendler],
+                            sourceMap: true
+                        }
+                    }
+                ],
+                test: /\.scss$/
+            }
         ]
     },
-    TEST: {
-        debug: true,
-        devtool: '#eval-source-map',
-        context: path.join(__dirname, 'test'),
-        output: {
-            path: path.join(__dirname, 'test'),
-            publicPath: '/',
-            filename: "bundle.js"
-        },
-        entry: [
-            'webpack/hot/dev-server',
-            'webpack-hot-middleware/client',
-            './index'
-        ],
-        module: {
-            loaders: [{
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loaders: ['react-hot', 'babel']
-            }]
-        },
-        resolve: {
-            extensions: ["", ".js", ".jsx", '.es6'],
-        },
-        plugins: [
-            new webpack.optimize.OccurenceOrderPlugin(),
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoErrorsPlugin()
-        ],
-    }
+    plugins: [
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+        }),
+        new HtmlWebpackPlugin({
+            template: "./src/index.html"
+        }),
+        new webpack.NoEmitOnErrorsPlugin()
+    ]
 }
+
+module.exports = config;

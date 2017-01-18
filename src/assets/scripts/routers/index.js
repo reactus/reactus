@@ -6,7 +6,7 @@ import App from '../components/app';
 import Index from '../components/index';
 import NotFound from '../components/not-found';
 
-const routerHistory = useRouterHistory(createHashHistory)({queryKey:false})
+const routerHistory = useRouterHistory(createHashHistory)()
 
 export default class Routers extends Component {
 
