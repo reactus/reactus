@@ -6,16 +6,20 @@
   "author": "Daniel Beff",
   "license": "MIT",
   "scripts": {
-    "start": "npm run build && webpack-dev-server --colors --inline --hot --content-base dist/ --port 3000 --open --history-api-fallback",
-    "build": "npm run clean && webpack --config ./webpack.config.js --progress --colors",
-    "dist": "NODE_ENV=production npm run clean && webpack -p --progress --colors",
-    "clean": "rimraf dist",
-    "copy": ""
+    "start": "npm run clean:dev",
+    "build": "NODE_ENV=production npm run clean:prod && npm run webpack:prod",
+    "webpack:dev": "webpack --config ./webpack.config.dev.js --progress --colors",
+    "webpack:prod": "webpack -p --config ./webpack.config.prod.js",
+    "clean:dev": "rimraf .tmp",
+    "clean:prod": "rimraf dist"
   },
   "engines": {
     "npm": ">=3",
     "node": ">=5"
   },
+  "browserslist": [
+    "last 5 version"
+  ],
   "devDependencies": {
     "autoprefixer": "^6.6.1",
     "babel-core": "^6.21.0",
