@@ -2,7 +2,6 @@ var webpack = require("webpack");
 var path = require("path");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var frontendler = path.resolve(__dirname, "./node_modules/frontendler-sass");
-var autoprefixer = require("autoprefixer");
 var prodEnv = {"process.env.NODE_ENV": JSON.stringify('production')};
 
 var config = {
@@ -36,7 +35,6 @@ var config = {
     plugins: [
         new webpack.DefinePlugin(prodEnv),
         new HtmlWebpackPlugin({template: "./src/index.html"}),
-        new webpack.NoEmitOnErrorsPlugin()
     ]
 }
 

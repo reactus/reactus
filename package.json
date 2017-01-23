@@ -6,9 +6,9 @@
   "author": "Daniel Beff",
   "license": "MIT",
   "scripts": {
-    "start": "npm run clean:dev",
+    "start": "npm run clean:dev && npm run webpack:dev && node_modules/.bin/webpack-dev-server --inline --hot",
     "build": "NODE_ENV=production npm run clean:prod && npm run webpack:prod",
-    "webpack:dev": "webpack --config ./webpack.config.dev.js --progress --colors",
+    "webpack:dev": "webpack-dev-server --config webpack.config.dev.js --hot",
     "webpack:prod": "webpack -p --config ./webpack.config.prod.js",
     "clean:dev": "rimraf .tmp",
     "clean:prod": "rimraf dist"
@@ -31,6 +31,7 @@
     "eslint-config-reactus": "^0.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "html-webpack-plugin": "^2.26.0",
+    "json-loader": "^0.5.4",
     "node-sass": "^4.3.0",
     "postcss-loader": "^1.2.2",
     "raw-loader": "^0.5.1",
