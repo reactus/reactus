@@ -1,4 +1,5 @@
 var path = require("path");
+var webpack = require("webpack");
 var rules = require("./webpack.config.rules");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
@@ -17,10 +18,10 @@ var config = {
     plugins: [
         new FriendlyErrorsWebpackPlugin(),
         new HtmlWebpackPlugin({template: "./src/index.html"}),
-        new OpenBrowserPlugin({ url: "http://localhost:3000" })
+        new OpenBrowserPlugin({url: "http://localhost:3000"})
     ],
-    devServer:{
-        port:3000,
+    devServer: {
+        port: 3000,
         compress: true,
         historyApiFallback: true,
         quiet: false

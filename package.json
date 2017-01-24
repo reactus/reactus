@@ -40,6 +40,7 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-1": "^6.16.0",
     "clean-webpack-plugin": "^0.1.15",
+    "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.26.1",
     "eslint": "^3.14.0",
     "eslint-config-reactus": "^0.1.1",
