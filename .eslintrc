@@ -1,6 +1,3 @@
 {
-    "extends": "reactus",
-    "rules": {
-        "quotes": ["error", "double"]
-    }
+    "extends": "reactus"
 }
