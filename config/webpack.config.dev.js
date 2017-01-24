@@ -8,7 +8,6 @@ var frontendler = path.resolve(__dirname, "../node_modules/frontendler-sass");
 var config = {
     devtool: "cheap-module-eval-source-map",
     entry: {
-        middleware: "webpack-hot-middleware/client",
         bundle: "./src/assets/scripts/main.js"
     },
     output: {
