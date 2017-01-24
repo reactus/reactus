@@ -1,7 +1,7 @@
 var webpack = require("webpack");
 var path = require("path");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
 var rules = require("./webpack.config.webpack.config.rules");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 var config = {
     devtool: "cheap-module-source-map",

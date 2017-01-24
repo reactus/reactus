@@ -1,5 +1,6 @@
 var path = require("path");
 var frontendler = path.join(__dirname, "../node_modules/frontendler-sass");
+
 var modules = {
     rules: [
         {

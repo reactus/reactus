@@ -1,8 +1,8 @@
 var path = require("path");
+var rules = require("./webpack.config.rules");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 var OpenBrowserPlugin = require("open-browser-webpack-plugin");
-var rules = require("./webpack.config.rules");
 
 var config = {
     devtool: "cheap-module-eval-source-map",
