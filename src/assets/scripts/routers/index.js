@@ -1,10 +1,10 @@
-import React,{Component} from 'react';
-import { Router, Route, IndexRoute, useRouterHistory} from 'react-router'
-import { createHashHistory } from 'history'
+import React,{Component} from "react";
+import { Router, Route, IndexRoute, useRouterHistory} from "react-router"
+import { createHashHistory } from "history"
 
-import App from '../components/app';
-import Index from '../components/index';
-import NotFound from '../components/not-found';
+import App from "../components/app";
+import Index from "../components/index";
+import NotFound from "../components/not-found";
 
 const routerHistory = useRouterHistory(createHashHistory)()
 

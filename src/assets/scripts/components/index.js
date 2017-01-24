@@ -1,7 +1,7 @@
-import React,{Component} from 'react';
-import {connect} from 'react-redux';
-import {hashHistory} from 'react-router';
-import {bindActionCreators} from 'redux';
+import React,{Component} from "react";
+import {connect} from "react-redux";
+import {hashHistory} from "react-router";
+import {bindActionCreators} from "redux";
 
 class Index extends Component {
 
@@ -13,7 +13,7 @@ class Index extends Component {
     render() {
         return (
             <div className="component-index">
-                <h1>Hello world 24</h1>
+                <h1>Hello world</h1>
             </div>
         );
     }
