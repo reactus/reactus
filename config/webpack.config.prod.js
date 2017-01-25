@@ -1,6 +1,6 @@
 var webpack = require("webpack");
 var path = require("path");
-var rules = require("./webpack.config.webpack.config.rules");
+var rules = require("./webpack.config.rules");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 var config = {
