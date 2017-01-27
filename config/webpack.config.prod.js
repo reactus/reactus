@@ -17,7 +17,14 @@ var config = {
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("production")
         }),
-        new HtmlWebpackPlugin({template: "./src/index.html"}),
+        new HtmlWebpackPlugin({
+            template: "./src/index.html",
+            favicon: "./src/favicon.ico",
+            minify:{
+                collapseWhitespace: true,
+                removeComments: true,
+            }
+        }),
     ]
 }
 
