@@ -13,7 +13,6 @@ class Index extends Component {
     render() {
         return (
             <div className="component-index">
-
                 <img src="https://facebook.github.io/react/img/logo_small.png"></img>
                 <h1>React is running!</h1>
             </div>
