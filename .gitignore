@@ -3,5 +3,6 @@
 /.sass-cache
 /node_modules
 /dist
-npm-debug.log
+npm-debug*
 yarn.lock
+.vscode
