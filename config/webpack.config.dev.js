@@ -3,10 +3,9 @@ var webpack = require("webpack");
 var rules = require("./webpack.config.rules");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
 var OpenBrowserPlugin = require("open-browser-webpack-plugin");
 var chalk = require('chalk');
-
+var port = 3000;
 var config = {
     devtool: "cheap-module-eval-source-map",
     entry: {
@@ -19,21 +18,17 @@ var config = {
     module: rules,
     plugins: [
         new FriendlyErrorsWebpackPlugin(),
-        new ProgressBarPlugin({
-            format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
-            clear: false
-        }),
-        new HtmlWebpackPlugin({
-            template: "./src/index.html",
-            favicon: "./src/favicon.ico",
-        }),
-        new OpenBrowserPlugin({url: "http://localhost:3000"})
+        new HtmlWebpackPlugin({template: "./src/index.html", favicon: "./src/favicon.ico"}),
+        new OpenBrowserPlugin({url:`http://localhost:${port}`})
     ],
     devServer: {
-        port: 3000,
+        port: port,
         compress: true,
-        historyApiFallback: true,
-        quiet: true
+        historyApiFallback: true
+    },
+    performance: {
+        maxEntrypointSize: 4000000,
+        maxAssetSize: 4000000
     }
 }
 
