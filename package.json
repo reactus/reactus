@@ -11,7 +11,9 @@
     "webpack:dev": "webpack-dev-server --config config/webpack.config.dev.js --hot",
     "webpack:prod": "webpack -p --config config/webpack.config.prod.js",
     "clean:dev": "rimraf .tmp",
-    "clean:prod": "rimraf dist"
+    "clean:prod": "rimraf dist",
+    "test": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "engines": {
     "npm": ">=3",
@@ -25,21 +27,33 @@
     ]
   },
   "browserslist": [
-    "last 5 version"
+    "last 3 version"
   ],
   "postcss": {
     "plugins": {
       "autoprefixer": {}
     }
   },
+  "jest": {
+    "rootDir": ".",
+    "transform": {
+      ".(js|jsx)": "<rootDir>/node_modules/babel-jest"
+    },
+    "testRegex": "./test/.*.js$",
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "<rootDir>/node_modules/jest-css-modules"
+    }
+  },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
     "babel-core": "^6.21.0",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-1": "^6.16.0",
     "css-loader": "^0.26.1",
+    "enzyme": "^2.7.1",
     "eslint": "^3.14.0",
     "eslint-config-reactus": "^0.1.1",
     "eslint-loader": "^1.6.1",
@@ -47,11 +61,15 @@
     "friendly-errors-webpack-plugin": "^1.1.3",
     "frontendler-sass": "^0.3.0",
     "html-webpack-plugin": "^2.26.0",
+    "jest": "^18.1.0",
+    "jest-cli": "^18.1.0",
+    "jest-css-modules": "^1.1.0",
     "json-loader": "^0.5.4",
     "node-sass": "^4.3.0",
     "open-browser-webpack-plugin": "0.0.3",
     "postcss-load-config": "^1.1.0",
     "postcss-loader": "^1.2.2",
+    "react-addons-test-utils": "^15.4.2",
     "react-hot-loader": "^1.3.1",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.1.1",
