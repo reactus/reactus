@@ -12,15 +12,12 @@ This is a React and Redux developer kit using the following technologies:
 | **Name** |URL|
 |----------|-------|---|
 | Babel | https://babeljs.io/ |
-| BrowserSync | https://www.browsersync.io/ |
 | ESLint | http://eslint.org/ |
 | Frontendler | http://frontendler.io/ |
-| Gulp | http://gulpjs.com/ |
-| Jasmine | http://jasmine.github.io/ |
 | React | http://redux.js.org/ |
 | Redux | https://facebook.github.io/react/ |
 | Sass | http://sass-lang.com/ |
-| Webpack | https://webpack.github.io/ |
+| Webpack 2 | https://webpack.js.org/ |
 
 ### Installation
 
@@ -33,13 +30,13 @@ npm install
 **Watch**
 
 ```
-$ gulp watch
+$ npm start
 ```
 
 **Build**
 
 ```
-$ gulp build
+$ npm run build
 ```
 
 ---
