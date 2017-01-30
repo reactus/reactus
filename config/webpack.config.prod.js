@@ -2,7 +2,7 @@ var webpack = require("webpack");
 var path = require("path");
 var rules = require("./webpack.config.rules");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-
+var env = {"process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)}
 var config = {
     devtool: "cheap-module-source-map",
     entry: {
@@ -14,9 +14,7 @@ var config = {
     },
     module: rules,
     plugins: [
-        new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("production")
-        }),
+        new webpack.DefinePlugin({env}),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             favicon: "./src/favicon.ico",
