@@ -39,5 +39,15 @@ $ npm start
 $ npm run build
 ```
 
+
+### TODO
+
+- Add loader for css without autoprefixer
+
+
+
+
+
+
 ---
 Made with ♥ by [Daniel Beff](http://www.danielbeff.com.br/) ([@dbeff](https://github.com/dbeff))
