@@ -8,23 +8,16 @@
   "scripts": {
     "start": "clear && npm run clean:dev && npm run webpack:dev",
     "build": "npm run clean:prod && npm run webpack:prod ",
-    "webpack:dev": "webpack-dev-server --config config/webpack.config.dev.js --hot",
-    "webpack:prod": "webpack -p --config config/webpack.config.prod.js",
+    "webpack:dev": "webpack-dev-server --config config/webpack.config.dev.babel.js --hot",
+    "webpack:prod": "webpack -p --config config/webpack.config.prod.babel.js",
     "clean:dev": "rimraf .tmp",
     "clean:prod": "rimraf dist",
-    "test": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test": "jest --config jest.json --watch",
+    "test:coverage": "jest --config jest.json --coverage"
   },
   "engines": {
     "npm": ">=3",
     "node": ">=5"
-  },
-  "babel": {
-    "presets": [
-      "react",
-      "es2015",
-      "stage-1"
-    ]
   },
   "browserslist": [
     "last 3 version"
@@ -34,24 +27,15 @@
       "autoprefixer": {}
     }
   },
-  "jest": {
-    "rootDir": ".",
-    "transform": {
-      ".(js|jsx)": "<rootDir>/node_modules/babel-jest"
-    },
-    "testRegex": "./test/.*.js$",
-    "moduleNameMapper": {
-      "\\.(css|scss)$": "<rootDir>/node_modules/jest-css-modules"
-    }
-  },
   "devDependencies": {
     "autoprefixer": "^6.6.1",
     "babel-core": "^6.21.0",
+    "babel-eslint": "^7.1.1",
     "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-1": "^6.16.0",
+    "babel-preset-stage-2": "^6.22.0",
     "css-loader": "^0.26.1",
     "enzyme": "^2.7.1",
     "eslint": "^3.14.0",

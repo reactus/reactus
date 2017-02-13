@@ -1,16 +1,15 @@
-var path = require("path");
-var frontendler = path.join(__dirname, "../node_modules/frontendler-sass");
-
-var modules = {
+import path from "path";
+const frontendler = path.join(__dirname, "../node_modules/frontendler-sass");
+const rules = {
     rules: [
         {
             test: /\.json$/,
             exclude: /node_modules/,
             use: "json-loader"
         }, {
-            test: /\.js$/,
+            test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            use: ["babel-loader", "eslint-loader"]
+            use: ["react-hot-loader","babel-loader", "eslint-loader"]
         }, {
             test: /\.scss$/,
             exclude: /node_modules/,
@@ -28,7 +27,7 @@ var modules = {
         }, {
             test: /\.(png|jpg|gif|svg)$/,
             exclude: /node_modules/,
-            use: "url-loader?limit=10000&name=assets/images/[name].[ext]"
+            use: "url-loader?limit=10000&name=assets/images/[name].[hash:8].[ext]"
         },{
             test: /\.(ttf|eot|woff|woff2)$/,
             use: "url-loader?limit=50000&name=assets/fonts/[name].[ext]"
@@ -36,4 +35,4 @@ var modules = {
     ]
 }
 
-module.exports = modules;
+export default rules;
