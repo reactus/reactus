@@ -7,7 +7,7 @@ import OpenBrowserPlugin from "open-browser-webpack-plugin";
 const port = 3000;
 const url = "http://localhost";
 const config = {
-    devtool: "inline-source-map",
+    devtool: "cheap-module-eval-source-map",
     entry: {
         bundle: [
             "./src/assets/scripts/main.js"
