@@ -1,4 +1,5 @@
 import path from "path";
+import autoprefixer from "autoprefixer";
 const frontendler = path.join(__dirname, "../node_modules/frontendler-sass");
 const rules = {
     rules: [
@@ -16,7 +17,25 @@ const rules = {
             use: [
                 "style-loader",
                 "css-loader",
-                "postcss-loader", {
+                {
+                    loader:"postcss-loader",
+                    options: {
+                        ident: 'postcss',
+                        plugins: function () {
+                            return [
+                                autoprefixer({
+                                    browsers: [
+                                        '>1%',
+                                        'last 4 versions',
+                                        'Firefox ESR',
+                                        'not ie < 9', // React doesn't support IE8 anyway
+                                    ]
+                                })
+                            ]
+                        }
+                    }
+                },
+                {
                     loader: "sass-loader",
                     options: {
                         includePaths: [frontendler],
@@ -30,6 +49,7 @@ const rules = {
             use: "url-loader?limit=10000&name=assets/images/[name].[hash:8].[ext]"
         },{
             test: /\.(ttf|eot|woff|woff2)$/,
+            exclude: /node_modules/,
             use: "url-loader?limit=50000&name=assets/fonts/[name].[ext]"
         }
     ]
