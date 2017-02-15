@@ -4,13 +4,15 @@ import Routers from "./routers/index";
 import FastClick from "fastclick";
 import "./../styles/main.scss";
 
+import { AppContainer } from 'react-hot-loader';
+
 FastClick.attach(document.body);
 
-const render = Component =>
-  ReactDOM.render(
-      <Component />, document.getElementById("root")
-  );
+ReactDOM.render(
+  <AppContainer>
+      <Routers />
+  </AppContainer>,
+  document.getElementById('root')
+);
 
-render(Routers);
-
-if (module.hot) module.hot.accept('./routers', () => render(Routers));
+if (module.hot) module.hot.accept();
