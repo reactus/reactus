@@ -16,6 +16,7 @@ const config = {
     plugins: [
         new webpack.DefinePlugin({env}),
         new webpack.NamedModulesPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             template: "./src/index.html",
             favicon: "./src/favicon.ico",
