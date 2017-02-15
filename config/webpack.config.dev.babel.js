@@ -7,11 +7,10 @@ import OpenBrowserPlugin from "open-browser-webpack-plugin";
 const port = 3000;
 const url = "http://localhost";
 const config = {
-    devtool: "cheap-module-eval-source-map",
+    watch: true,
+    devtool: "inline-source-map",
     entry: {
-        bundle: [
-            "./src/assets/scripts/main.js"
-        ]
+        bundle: ["react-hot-loader/patch", "./src/assets/scripts/main.js"]
     },
     output: {
         path: path.join(__dirname, "src"),
@@ -19,18 +18,20 @@ const config = {
     },
     module: rules,
     plugins: [
-        new OpenBrowserPlugin({url:`${url}:${port}`}),
+        new webpack.NamedModulesPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({template: "./src/index.html", favicon: "./src/favicon.ico"}),
         new FriendlyErrorsWebpackPlugin({
             compilationSuccessInfo: {
                 messages: [`You application is running here ${url}:${port}`]
-            },
+            }
         }),
+        new OpenBrowserPlugin({url: `${url}:${port}`}),
     ],
     devServer: {
         port: port,
         historyApiFallback: true,
-        host: 'localhost'
+        host: "localhost"
     },
     performance: {
         maxEntrypointSize: 4000000,
