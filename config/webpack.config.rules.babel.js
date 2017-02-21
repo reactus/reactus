@@ -48,9 +48,9 @@ const rules = {
             exclude: /node_modules/,
             use: "url-loader?limit=10000&name=assets/images/[name].[hash:8].[ext]"
         },{
-            test: /\.(ttf|eot|woff|woff2)$/,
+            test: /\.(ttf|eot|woff|woff2|otf)$/,
             exclude: /node_modules/,
-            use: "url-loader?limit=50000&name=assets/fonts/[name].[ext]"
+            use: "url-loader?limit=0&name=assets/fonts/[name].[ext]"
         }
     ]
 }
